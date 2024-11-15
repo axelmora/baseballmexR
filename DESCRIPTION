@@ -1,11 +1,33 @@
 Package: baseballmexR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Query MLB stats api for Mexican Baseball Pro Leagues
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: 
+    person("Axel", "Mora", , "axel.asmo@gmail.com", role = c("aut", "cre"))
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+  dplyr,
+  Rcpp,
+  RcppParallel,
+  data.table,
+  janitor,
+  magrittr,
+  rlang,
+  rvest,
+  glue,
+  httr,
+  jsonlite,
+  tidyr,
+  cli,
+  crayon
+Suggests:
+  parallel,
+  testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://github.com/axelmora/baseballmexR
+BugReports: https://github.com/axelmora/baseballmexR/issues
