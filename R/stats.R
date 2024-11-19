@@ -37,7 +37,7 @@
 #'    - X
 #' @param stat_group Stat group to return information and ranking for a particular statistic in a particular group.
 #' @param season Year to return information and ranking for a particular statistic in a given year.
-#' @param league League ID to return statistics for a given league. Default to "Qualified" player pool.
+#' @param league lmb or lmp. Default to "Qualified" player pool.
 #' @param sort_stat Sort return based on stat.
 #' @param order Order return based on either desc or asc.
 #' @param limit A limit to limit return to a particular number of records.
@@ -152,7 +152,7 @@ stats <- function(stat_type = NULL,
         janitor::clean_names()  %>%
         as.data.frame() %>%
         dplyr::select(-"exemptions") %>%
-        make_baseballr_data("MLB Stats data from MLB.com",Sys.time())
+        make_baseballmexR_data(paste0(toupper(league), " Stats data from MLB.com"),Sys.time())
 
     },
     error = function(e) {

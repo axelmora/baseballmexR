@@ -1,6 +1,6 @@
 #' @title **Attendance**
 #' @param team_id Return attendance information for a particular team_id(s).
-#' @param league LMB or LMP
+#' @param league lmb or lmp
 #' @param season Return attendance information for particular year(s).
 #' @param date Return attendance information on a particular date. Format: MM/DD/YYYY
 #'
@@ -66,7 +66,7 @@ attendance <- function(
         mlb_api_call()
       records <- jsonlite::fromJSON(jsonlite::toJSON(resp$records), flatten = TRUE)  %>%
         janitor::clean_names() %>%
-        make_baseballr_data("MLB Attendance data from MLB.com",Sys.time())
+        make_baseballmexR_data(paste0(toupper(league), " Stats data from MLB.com"),Sys.time())
 
     },
     error = function(e) {

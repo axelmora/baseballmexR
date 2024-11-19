@@ -1,4 +1,4 @@
-#' @title **Teams** 
+#' @title **Teams**
 #' @param season Year to return to return team information for.
 #' @param active_status The active statuses to populate teams for a given season.
 #' @param all_star_statuses The all-star statuses to populate teams for a given season.
@@ -45,36 +45,36 @@
 #'   try(mlb_teams(season = 2021, sport_ids = c(1)))
 #' }
 teams <- function(
-    season = NULL 
-    ,active_status = NULL 
+    season = NULL
+    ,active_status = NULL
     ,all_star_statuses = NULL
     ,league = c("lmb","lmp")
     ,game_type = NULL){
-  
+
   league_ids <- match.arg(league)
   mlb_endpoint <- mlb_stats_endpoint("v1/teams")
   query_params <- list(
-    season = season 
-    ,activeStatus = active_status 
+    season = season
+    ,activeStatus = active_status
     ,allStarStatuses = all_star_statuses
     ,leagueIds = switch(league_ids, lmb = 125, lmp = 132)
     ,gameType = game_type
   )
-  
+
   mlb_endpoint <- httr::modify_url(mlb_endpoint, query = query_params)
-  
+
   tryCatch(
     expr={
-      resp <- mlb_endpoint %>% 
+      resp <- mlb_endpoint %>%
         mlb_api_call()
-      teams <- jsonlite::fromJSON(jsonlite::toJSON(resp$teams),flatten = TRUE) %>% 
-        janitor::clean_names() %>% 
+      teams <- jsonlite::fromJSON(jsonlite::toJSON(resp$teams),flatten = TRUE) %>%
+        janitor::clean_names() %>%
         dplyr::rename(
           "team_id" = "id",
           "team_full_name" = "name",
           "team_abbreviation" = "abbreviation") %>%
-        make_baseballr_data("MLB Teams data from MLB.com",Sys.time())
-      
+        make_baseballmexR_data(paste0(toupper(league), " Stats data from MLB.com"),Sys.time())
+
     },
     error = function(e) {
       message(glue::glue("{Sys.time()}: Invalid arguments provided"))

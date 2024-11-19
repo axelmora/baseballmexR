@@ -1,16 +1,19 @@
 #' @rdname schedule
 #' @title **Find game_pk values for Mexican professional baseball games (LMB and LMP)**
-#' 
+#'
 #' @param season The season for which you want to find game_pk values for MLB games
 #' @param league lmb or lmp
-#' @param game_type character vector of game types to include. Options are "R" (regular sesason),
-#'   "F" (LMB first-round playoff series), "D" (LMB zone series, LMP first round), "L" (LMB zone
-#'   championship series, LMP semi-final), "W" (LMB Serie del Rey, LMP Serie Final)
-#'   Default is "R".
-#'  
+#' @param game_type character vector of game types to include. Options are
+#' "R" (regular sesason),
+#' "F" (LMB first-round playoff series),
+#' "D" (LMB zone series, LMP first round),
+#' "L" (LMB zone championship series, LMP semi-final),
+#' "W" (LMB Serie del Rey, LMP Serie Final)
+#' Default is "R".
+#'
 #' @return Returns a tibble which includes `game_pk` values and additional
 #' information for games scheduled or played with the following columns:
-#' 
+#'
 #'  |col_name                        |types     |
 #'  |:-------------------------------|:---------|
 #'  |date                            |character |
@@ -83,13 +86,12 @@
 #'  |resumed_from                    |character |
 #'  |resumed_from_date               |character |
 #'  |events                          |list      |
-#' @section Level IDs:
 #' @importFrom jsonlite fromJSON
-#' @importFrom janitor clean_names 
+#' @importFrom janitor clean_names
 #' @importFrom glue glue
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
-#' @import rvest 
+#' @import rvest
 #' @export
 #'
 #' @examples \donttest{
@@ -97,38 +99,38 @@
 #' }
 
 schedule <- function(season = 2024, league = c("lmb","lmp"), game_type = "R"){
-  
+
   sport_ids <- match.arg(league)
   game_type <- sanitize_game_type(game_type)
-  
+
   mlb_endpoint <- mlb_stats_endpoint("v1/schedule")
-  
+
   query_params <- list(
     language = "en",
-    sportId = switch(sport_ids, lmb = 23, lmp = 17), 
+    sportId = switch(sport_ids, lmb = 23, lmp = 17),
     season = season,
     gameType = game_type
   )
-  
+
   mlb_endpoint <- httr::modify_url(mlb_endpoint, query = query_params)
-  
+
   games <- data.frame()
   tryCatch(
     expr = {
-      
-      resp <- mlb_endpoint %>% 
-        mlb_api_call() %>% 
-        jsonlite::toJSON() %>% 
+
+      resp <- mlb_endpoint %>%
+        mlb_api_call() %>%
+        jsonlite::toJSON() %>%
         jsonlite::fromJSON(flatten = TRUE)
-      
-      games <- resp$dates %>% 
+
+      games <- resp$dates %>%
         tidyr::unnest("games") %>%
         as.data.frame() %>%
         janitor::clean_names() %>%
         dplyr::filter(teams_away_team_id %in% teams(league = "lmp")$team_id & teams_home_team_id %in% teams(league = "lmp")$team_id |
                         teams_away_team_id %in% teams(league = "lmb")$team_id & teams_home_team_id %in% teams(league = "lmb")$team_id) %>%
-        make_baseballr_data("MLB Schedule data from MLB.com",Sys.time())
-      
+        make_baseballmexR_data(paste0(toupper(league), " Stats data from MLB.com"),Sys.time())
+
     },
     error = function(e) {
       message(glue::glue("{Sys.time()}: Invalid arguments provided"))

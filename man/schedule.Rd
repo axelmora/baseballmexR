@@ -11,9 +11,12 @@ schedule(season = 2024, league = c("lmb", "lmp"), game_type = "R")
 
 \item{league}{lmb or lmp}
 
-\item{game_type}{character vector of game types to include. Options are "R" (regular sesason),
-"F" (LMB first-round playoff series), "D" (LMB zone series, LMP first round), "L" (LMB zone
-championship series, LMP semi-final), "W" (LMB Serie del Rey, LMP Serie Final)
+\item{game_type}{character vector of game types to include. Options are
+"R" (regular sesason),
+"F" (LMB first-round playoff series),
+"D" (LMB zone series, LMP first round),
+"L" (LMB zone championship series, LMP semi-final),
+"W" (LMB Serie del Rey, LMP Serie Final)
 Default is "R".}
 }
 \value{
@@ -95,10 +98,6 @@ information for games scheduled or played with the following columns:\tabular{ll
 \description{
 \strong{Find game_pk values for Mexican professional baseball games (LMB and LMP)}
 }
-\section{Level IDs}{
-
-}
-
 \examples{
 \donttest{
   try(mlb_schedule(season = "2019"))

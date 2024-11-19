@@ -14,7 +14,7 @@ attendance(
 \arguments{
 \item{team_id}{Return attendance information for a particular team_id(s).}
 
-\item{league}{LMB or LMP}
+\item{league}{lmb or lmp}
 
 \item{season}{Return attendance information for particular year(s).}
 

@@ -14,7 +14,7 @@
 #'   9. byDivision - Standings by Division
 #'   10. byConference - Standings by Conference
 #'   11. byLeague - Standings by League
-#' @param league LMB or LMP
+#' @param league lmb or lmp
 #' @return Returns a tibble with the following columns
 #'  |col_name                                  |types     |
 #'  |:-----------------------------------------|:---------|
@@ -101,7 +101,7 @@ standings <- function(
         tidyr::unnest("teamRecords", names_sep = "_") %>%
         janitor::clean_names() %>%
         as.data.frame() %>%
-        make_baseballr_data("MLB Standings data from MLB.com",Sys.time())
+        make_baseballmexR_data(paste0(toupper(league), " Stats data from MLB.com"),Sys.time())
 
     },
     error = function(e) {

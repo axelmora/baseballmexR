@@ -31,12 +31,12 @@ progressively <- function(f, p = NULL){
   if (!is.null(p) && !inherits(p, "progressor")) stop("`p` must be a progressor function!")
   if (is.null(p)) p <- function(...) NULL
   force(f)
-  
+
   function(...){
     on.exit(p("loading..."))
     f(...)
   }
-  
+
 }
 
 #' @title
@@ -61,12 +61,12 @@ rds_from_url <- function(url) {
   con <- url(url)
   on.exit(close(con))
   load <- try(readRDS(con), silent = TRUE)
-  
+
   if (inherits(load, "try-error")) {
     warning(paste0("Failed to readRDS from <", url, ">"), call. = FALSE)
     return(data.table::data.table())
   }
-  
+
   data.table::setDT(load)
   return(load)
 }
@@ -111,7 +111,7 @@ rule_header <- function(x) {
   rlang::inform(
     cli::rule(
       left = ifelse(is_installed("crayon"), crayon::bold(x), glue::glue("\033[1m{x}\033[22m")),
-      right = paste0("baseballr version ", utils::packageVersion("baseballr")),
+      right = paste0("baseballmexR version ", utils::packageVersion("baseballmexR")),
       width = getOption("width")
     )
   )
@@ -174,41 +174,41 @@ most_recent_mlb_season <- function() {
 }
 #ADDED
 # Functions for custom class
-# turn a data.frame into a tibble/baseballr_data
-make_baseballr_data <- function(df, type, timestamp){
+# turn a data.frame into a tibble/baseballmexR_data
+make_baseballmexR_data <- function(df, type, timestamp){
   out <- df %>%
     tidyr::as_tibble()
-  
-  class(out) <- c("baseballr_data","tbl_df","tbl","data.table","data.frame")
-  attr(out,"baseballr_timestamp") <- timestamp
-  attr(out,"baseballr_type") <- type
+
+  class(out) <- c("baseballmexR_data","tbl_df","tbl","data.table","data.frame")
+  attr(out,"baseballmexR_timestamp") <- timestamp
+  attr(out,"baseballmexR_type") <- type
   return(out)
 }
 
 #' @export
 #' @return A print method for tibbles indicating the update timestamp of the resource
 #' @noRd
-print.baseballr_data <- function(x,...) {
-  cli::cli_rule(left = "{attr(x,'baseballr_type')}",right = "{.emph baseballr {utils::packageVersion('baseballr')}}")
-  
-  if (!is.null(attr(x,'baseballr_timestamp'))) {
+print.baseballmexR_data <- function(x,...) {
+  cli::cli_rule(left = "{attr(x,'baseballmexR_type')}",right = "{.emph baseballmexR {utils::packageVersion('baseballmexR')}}")
+
+  if (!is.null(attr(x,'baseballmexR_timestamp'))) {
     cli::cli_alert_info(
-      "Data updated: {.field {format(attr(x,'baseballr_timestamp'), tz = Sys.timezone(), usetz = TRUE)}}"
+      "Data updated: {.field {format(attr(x,'baseballmexR_timestamp'), tz = Sys.timezone(), usetz = TRUE)}}"
     )
   }
-  
+
   NextMethod(print,x)
   invisible(x)
 }
 
 # rbindlist but maintain attributes of last file
 rbindlist_with_attrs <- function(dflist){
-  
-  baseballr_timestamp <- attr(dflist[[length(dflist)]], "baseballr_timestamp")
-  baseballr_type <- attr(dflist[[length(dflist)]], "baseballr_type")
+
+  baseballmexR_timestamp <- attr(dflist[[length(dflist)]], "baseballmexR_timestamp")
+  baseballmexR_type <- attr(dflist[[length(dflist)]], "baseballmexR_type")
   out <- data.table::rbindlist(dflist, use.names = TRUE, fill = TRUE)
-  attr(out,"baseballr_timestamp") <- baseballr_timestamp
-  attr(out,"baseballr_type") <- baseballr_type
+  attr(out,"baseballmexR_timestamp") <- baseballmexR_timestamp
+  attr(out,"baseballmexR_type") <- baseballmexR_type
   out
 }
 

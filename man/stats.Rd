@@ -67,7 +67,7 @@ Acceptable values include:
 
 \item{season}{Year to return information and ranking for a particular statistic in a given year.}
 
-\item{league}{League ID to return statistics for a given league. Default to "Qualified" player pool.}
+\item{league}{lmb or lmp. Default to "Qualified" player pool.}
 
 \item{sort_stat}{Sort return based on stat.}
 

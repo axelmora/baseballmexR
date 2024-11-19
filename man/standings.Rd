@@ -32,7 +32,7 @@ standings(
 \item byLeague - Standings by League
 }}
 
-\item{league}{LMB or LMP}
+\item{league}{lmb or lmp}
 }
 \value{
 Returns a tibble with the following columns\tabular{ll}{
