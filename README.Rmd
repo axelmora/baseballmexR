@@ -1,5 +1,8 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,37 +19,68 @@ knitr::opts_chunk$set(
 # baseballmexR
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-`baseballmexR` is a package written for R focused on mexican baseball analysis based on the `baseballr` and `sabRmetrics` packages. It includes functions for scraping [statsapi.mlb.com.com](https://www.statsapi.mlb.com/) focused on the Mexican Pro Baseball leagues LMB and LMP.
+`baseballmexR` is a package written for R focused on mexican baseball
+analysis based on the `baseballr` and `sabRmetrics` packages. It
+includes functions for scraping
+[statsapi.mlb.com.com](https://www.statsapi.mlb.com/) focused on the
+Mexican Pro Baseball leagues LMB and LMP.
 
 ## Installation
 
-You can install the development version of baseballmexR from [GitHub](https://github.com/) with:
+You can install the development version of baseballmexR from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
 pak::pak("axelmora/baseballmexR")
 ```
 
+## General considerations
+
+For all functions you have to define the league that you want to query
+with the parameter `league`: "lmb" for Mexican League and "lmp" for
+Winter Mexican League.
+
+```{r standings}
+library(baseballmexR)
+standings(season = 2024, league = "lmb")
+```
+
+In some functions, you can to define the `game_type` that correspond for
+regular season or post-season data defined in this way:
+
+-   "R" (regular season)
+-   "F" (LMB first-round playoff series)
+-   "D" (LMB zone series, LMP first-round playoff series)
+-   "L" (LMB zone championship series, LMP semi-final)
+-   "W" (LMB Championship series "Serie del Rey", LMP "Serie Final")
+
+Default is "R".
+
 ## Example
 
-The package consists mainly of data acquisition for the Mexican League (LMB) and the Winter Mexican League (LMP).
+The package consists mainly of data acquisition for the Mexican League
+(LMB) and the Winter Mexican League (LMP).
 
-For example, if you want to see the teams for a specific league, you can use the `teams()` function. Just pass the league you want (lmb or lmp):
+For example, if you want to see the teams for a specific league, you can
+use the `teams()` function. Just pass the league you want (lmb or lmp):
 
 ```{r teams}
-library(baseballmexR)
 teams(league = "lmb")
 ```
 
-For see the schedule for a league in a specific year, you can use the `schedule()` function. Just pass the season and the league:
+For see the schedule for a league in a specific year, you can use the
+`schedule()` function. Just pass the season and the league:
 
 ```{r schedule}
 schedule(season = 2024, league = "lmp")
 ```
 
-You can also pull data for a specific stat type and season for a league. Here are the results hitting stats for the 2023 season in the LMB:
+You can also pull data for a specific stat type and season for a league.
+Here are the results hitting stats for the 2023 season in the LMB:
 
 ```{r stats}
 stats(league = "lmb", stat_group = "hitting", stat_type = "season", season = 2024, player_pool = "all")

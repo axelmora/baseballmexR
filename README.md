@@ -22,6 +22,60 @@ You can install the development version of baseballmexR from
 pak::pak("axelmora/baseballmexR")
 ```
 
+## General considerations
+
+For all functions you have to define the league that you want to query
+with the parameter `league`: “lmb” for Mexican League and “lmp” for
+Winter Mexican League.
+
+``` r
+library(baseballmexR)
+standings(season = 2024, league = "lmb")
+#> ── LMB Stats data from MLB.com ─────────────────────────── baseballmexR 0.1.1 ──
+#> ℹ Data updated: 2024-11-20 11:37:10 PST
+#> # A tibble: 20 × 54
+#>    standings_type last_updated        team_records_season team_records_divisio…¹
+#>    <chr>          <chr>               <chr>               <chr>                 
+#>  1 regularSeason  2024-08-02T05:31:2… 2024                1                     
+#>  2 regularSeason  2024-08-02T05:31:2… 2024                2                     
+#>  3 regularSeason  2024-08-02T05:31:2… 2024                3                     
+#>  4 regularSeason  2024-08-02T05:31:2… 2024                4                     
+#>  5 regularSeason  2024-08-02T05:31:2… 2024                5                     
+#>  6 regularSeason  2024-08-02T05:31:2… 2024                6                     
+#>  7 regularSeason  2024-08-02T05:31:2… 2024                7                     
+#>  8 regularSeason  2024-08-02T05:31:2… 2024                8                     
+#>  9 regularSeason  2024-08-02T05:31:2… 2024                9                     
+#> 10 regularSeason  2024-08-02T05:31:2… 2024                10                    
+#> 11 regularSeason  2024-10-28T17:43:0… 2024                1                     
+#> 12 regularSeason  2024-10-28T17:43:0… 2024                2                     
+#> 13 regularSeason  2024-10-28T17:43:0… 2024                3                     
+#> 14 regularSeason  2024-10-28T17:43:0… 2024                4                     
+#> 15 regularSeason  2024-10-28T17:43:0… 2024                5                     
+#> 16 regularSeason  2024-10-28T17:43:0… 2024                6                     
+#> 17 regularSeason  2024-10-28T17:43:0… 2024                7                     
+#> 18 regularSeason  2024-10-28T17:43:0… 2024                8                     
+#> 19 regularSeason  2024-10-28T17:43:0… 2024                9                     
+#> 20 regularSeason  2024-10-28T17:43:0… 2024                10                    
+#> # ℹ abbreviated name: ¹​team_records_division_rank
+#> # ℹ 50 more variables: team_records_league_rank <chr>,
+#> #   team_records_sport_rank <chr>, team_records_games_played <int>,
+#> #   team_records_games_back <chr>, team_records_wild_card_games_back <chr>,
+#> #   team_records_league_games_back <chr>,
+#> #   team_records_spring_league_games_back <chr>,
+#> #   team_records_sport_games_back <chr>, …
+```
+
+In some functions, you can to define the `game_type` that correspond for
+regular season or post-season data defined in this way:
+
+- “R” (regular season)
+- “F” (LMB first-round playoff series)
+- “D” (LMB zone series, LMP first-round playoff series)
+- “L” (LMB zone championship series, LMP semi-final)
+- “W” (LMB Championship series “Serie del Rey”, LMP “Serie Final”)
+
+Default is “R”.
+
 ## Example
 
 The package consists mainly of data acquisition for the Mexican League
@@ -31,10 +85,9 @@ For example, if you want to see the teams for a specific league, you can
 use the `teams()` function. Just pass the league you want (lmb or lmp):
 
 ``` r
-library(baseballmexR)
 teams(league = "lmb")
 #> ── LMB Stats data from MLB.com ─────────────────────────── baseballmexR 0.1.1 ──
-#> ℹ Data updated: 2024-11-20 08:27:45 PST
+#> ℹ Data updated: 2024-11-20 11:37:11 PST
 #> # A tibble: 20 × 29
 #>    all_star_status team_id team_full_name       link  season team_code file_code
 #>    <chr>             <int> <chr>                <chr>  <int> <chr>     <chr>    
@@ -73,7 +126,7 @@ For see the schedule for a league in a specific year, you can use the
 ``` r
 schedule(season = 2024, league = "lmp")
 #> ── LMP Stats data from MLB.com ─────────────────────────── baseballmexR 0.1.1 ──
-#> ℹ Data updated: 2024-11-20 08:27:47 PST
+#> ℹ Data updated: 2024-11-20 11:37:12 PST
 #> # A tibble: 340 × 71
 #>    date      total_items total_events total_games total_games_in_progr…¹ game_pk
 #>    <chr>           <int>        <int>       <int>                  <int>   <int>
@@ -103,7 +156,7 @@ Here are the results hitting stats for the 2023 season in the LMB:
 stats(league = "lmb", stat_group = "hitting", stat_type = "season", season = 2024, player_pool = "all")
 #> [1] "http://statsapi.mlb.com/api/v1/stats?stats=season&playerPool=all&group=hitting&season=2024&leagueIds=125&limit=1000"
 #> ── LMB Stats data from MLB.com ─────────────────────────── baseballmexR 0.1.1 ──
-#> ℹ Data updated: 2024-11-20 08:27:47 PST
+#> ℹ Data updated: 2024-11-20 11:37:12 PST
 #> # A tibble: 450 × 59
 #>    total_splits season num_teams  rank games_played ground_outs air_outs  runs
 #>           <int> <chr>      <int> <int>        <int>       <int>    <int> <int>
