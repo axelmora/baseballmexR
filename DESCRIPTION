@@ -1,7 +1,7 @@
 Package: baseballmexR
 Type: Package
 Title: Query MLB stats api for Mexican Baseball Pro Leagues
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Axel", "Mora", , "axel.asmo@gmail.com", role = c("aut", "cre"))
 Description: More about what it does (maybe more than one line)

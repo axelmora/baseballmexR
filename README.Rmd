@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of baseballmexR is to ...
+`baseballmexR` is a package written for R focused on mexican baseball analysis based on the `baseballr` and `sabRmetrics` packages. It includes functions for scraping [statsapi.mlb.com.com](https://www.statsapi.mlb.com/) focused on the Mexican Pro Baseball leagues LMB and LMP.
 
 ## Installation
 
@@ -31,25 +31,23 @@ pak::pak("axelmora/baseballmexR")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The package consists mainly of data acquisition for the Mexican League (LMB) and the Winter Mexican League (LMP).
 
-```{r example}
+For example, if you want to see the teams for a specific league, you can use the `teams()` function. Just pass the league you want (lmb or lmp):
+
+```{r teams}
 library(baseballmexR)
-## basic example code
+teams(league = "lmb")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+For see the schedule for a league in a specific year, you can use the `schedule()` function. Just pass the season and the league:
 
-```{r cars}
-summary(cars)
+```{r schedule}
+schedule(season = 2024, league = "lmp")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+You can also pull data for a specific stat type and season for a league. Here are the results hitting stats for the 2023 season in the LMB:
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r stats}
+stats(league = "lmb", stat_group = "hitting", stat_type = "season", season = 2024, player_pool = "all")
 ```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
